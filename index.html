@@ -1,0 +1,855 @@
+<!doctype html>
+<html lang="ko">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BEFOREMATH | 비포메스</title>
+<meta name="description" content="전자파 맵핑과 환경영향평가로, 무선통신기기가 주변 설비에 주는 영향을 확인합니다. 장기적으로 AI 예지보전을 준비합니다.">
+<meta name="robots" content="noindex, nofollow">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="BEFOREMATH">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:url" content="https://www.beforemath.co.kr/">
+<meta property="og:title" content="BEFOREMATH | 비포메스">
+<meta property="og:description" content="전자파 맵핑과 환경영향평가로, 무선통신기기가 주변 설비에 주는 영향을 확인합니다. 장기적으로 AI 예지보전을 준비합니다.">
+<meta property="og:image" content="https://www.beforemath.co.kr/assets/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="assets/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap">
+<style>
+/* 레이아웃: 밝은 띠와 어두운 띠가 번갈아 이어지는 한 페이지. 모든 내용은 가운데 정렬의 큰 문장 + 넓은 여백. 단일 룩(앱 테마 무관). */
+:root{
+  --navy:#141C55; --ink:#141C55; --deep:#0b1038; --paper:#f1f3fa; --white:#ffffff;
+  --text-dark:#141836; --text-dark-2:#575c7d;
+  --text-light:#f3f5ff; --text-light-2:#b6bde3;
+  --accent:#a4b3ff; --line-dark:#2d3877; --line-light:#d6daee;
+  --font:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--ink);color:var(--text-light);font-family:var(--font);line-height:1.6;
+  -webkit-font-smoothing:antialiased;word-break:keep-all}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:#fff;z-index:30}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+
+.wrap{max-width:68rem;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.band{padding-block:clamp(5rem,12vw,9rem)}
+.dark{background:var(--ink);color:var(--text-light)}
+.gray{background:var(--paper);color:var(--text-dark)}
+.white{background:var(--white);color:var(--text-dark)}
+.eyebrow{font-size:.95rem;font-weight:500;color:var(--accent);margin:0 0 1rem}
+.gray .eyebrow,.white .eyebrow{color:var(--navy)}
+h1,h2,h3,p{margin:0}
+h2{font-size:clamp(2rem,6vw,3.6rem);font-weight:700;line-height:1.2;letter-spacing:-.03em;text-wrap:balance}
+.lead{font-size:clamp(1.05rem,2.2vw,1.35rem);color:var(--text-light-2);max-width:40rem;margin-top:1.4rem;font-weight:300;text-wrap:balance}
+.gray .lead,.white .lead{color:var(--text-dark-2)}
+.center{text-align:center}
+.center .lead{margin-inline:auto}
+
+/* 상단 바 */
+nav.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:40;background:rgba(255,255,255,.88);backdrop-filter:saturate(180%) blur(18px);-webkit-backdrop-filter:saturate(180%) blur(18px);border-bottom:1px solid var(--line-light)}
+nav.top .wrap{display:flex;align-items:center;justify-content:space-between;height:3.2rem}
+.brand{display:flex;align-items:center;text-decoration:none}
+.brand img{height:1.7rem;width:auto;display:block}
+nav.top ul{display:flex;gap:1.6rem;list-style:none;margin:0;padding:0}
+nav.top ul a{font-size:.82rem;color:var(--text-dark-2);text-decoration:none}
+nav.top ul a:hover{color:var(--navy)}
+@media(max-width:640px){nav.top ul li:not(:last-child){display:none}}
+
+/* 첫 화면 */
+.hero{position:relative;min-height:calc(100svh - 3.2rem);display:grid;align-items:center;overflow:hidden;padding-block:5rem 4rem;background:radial-gradient(120% 90% at 70% 10%,#212c82 0%,var(--ink) 48%,var(--deep) 100%)}
+.hero canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.hero .wrap{position:relative;text-align:center}
+.hero .hero-logo{width:clamp(13rem,34vw,22rem);height:auto;display:block;margin:0 auto 2.2rem}
+.hero h1{font-size:clamp(2.1rem,6.4vw,5.2rem);font-weight:900;line-height:1.2;letter-spacing:-.04em;text-wrap:balance}
+.hero p.sub{font-size:clamp(1.05rem,2.4vw,1.4rem);color:var(--text-light-2);margin:1.6rem auto 0;max-width:34rem;font-weight:300}
+.cta{display:inline-block;margin-top:2.2rem;background:var(--accent);color:var(--navy);font-weight:700;text-decoration:none;padding:.85rem 1.8rem;border-radius:999px;font-size:1rem}
+.cta:hover{filter:brightness(1.08)}
+.cta.ghost{background:transparent;color:var(--accent);border:1px solid var(--accent);margin-left:.6rem}
+@media(max-width:480px){.cta.ghost{margin-left:0;margin-top:.8rem}}
+
+/* 3단계 */
+.steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(1.5rem,4vw,3rem);margin-top:clamp(3rem,7vw,5rem)}
+@media(max-width:760px){.steps{grid-template-columns:minmax(0,1fr)}}
+.step{display:flex;flex-direction:column;gap:1rem}
+.center .step{align-items:center;text-align:center}
+.ico{width:4.2rem;height:4.2rem;color:var(--navy)}
+.step h3{font-size:1.7rem;font-weight:700;letter-spacing:-.02em}
+.step p{color:var(--text-dark-2);font-size:1.05rem;max-width:20rem}
+
+/* 문제 */
+.big{font-size:clamp(1.9rem,6.2vw,4rem);font-weight:700;line-height:1.28;letter-spacing:-.035em;text-wrap:balance}
+.big .dim{color:var(--text-light-2)}
+.big .hl{color:var(--accent)}
+.problem .big{font-size:clamp(1.45rem,3.6vw,2.5rem)}
+.problem .sites{list-style:none;display:flex;flex-wrap:wrap;justify-content:center;gap:.5rem;margin:1.3rem 0 0;padding:0}
+.problem .sites li{border:1px solid var(--line-light);background:var(--paper);color:var(--navy);border-radius:999px;padding:.35rem .95rem;font-size:.92rem;font-weight:500}
+.problem .sites li:first-child{background:var(--navy);border-color:var(--navy);color:#fff}
+.problem .big .dim{color:#9aa1c8}
+.problem .big .hl{color:var(--navy);background:linear-gradient(transparent 58%,var(--accent) 58% 90%,transparent 90%);padding:0 .12em;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.problem .pulse{display:block;width:min(36rem,88%);height:auto;margin:clamp(2rem,5vw,3.4rem) auto 0}
+.problem .pgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(1rem,2.5vw,1.6rem);margin-top:clamp(2.5rem,6vw,4rem);text-align:left}
+.problem .pcard{background:var(--paper);border:1px solid var(--line-light);border-radius:22px;padding:1.7rem 1.6rem}
+.problem .pcard .no{font-size:.8rem;font-weight:700;letter-spacing:.14em;color:var(--navy)}
+.problem .pcard h3{font-size:1.25rem;font-weight:700;letter-spacing:-.02em;margin:.7rem 0 .5rem}
+.problem .pcard p{color:var(--text-dark-2);font-size:1rem}
+@media (max-width:820px){.problem .pgrid{grid-template-columns:1fr}}
+
+/* BEFOREMATH SCAN 제품 소개 (개념 렌더링) */
+.scan{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:clamp(2rem,5vw,4.5rem);align-items:center;margin-top:clamp(3rem,7vw,5rem)}
+.scan-fig{position:relative;margin:0;justify-self:center;width:min(100%,25rem);border-radius:24px;overflow:hidden;background:#05070f;box-shadow:0 0 0 1px var(--line-dark),0 40px 90px -35px rgba(0,0,0,.8),0 0 120px -30px rgba(106,126,255,.35)}
+.scan-fig .main{display:block;width:100%;height:auto}
+.scan-fig .scan-logo{position:absolute;left:5%;top:3.2%;width:24%;height:auto;opacity:.96}
+.scan-fig figcaption{position:absolute;right:4%;bottom:2.4%;font-size:.72rem;color:var(--text-light-2);letter-spacing:.02em;background:rgba(5,7,15,.6);padding:.15rem .55rem;border-radius:999px}
+.scan-fig .hs{position:absolute;width:1.8rem;height:1.8rem;margin:-.9rem 0 0 -.9rem;border-radius:50%;background:var(--accent);color:var(--ink);font-size:.74rem;font-weight:700;display:grid;place-items:center;box-shadow:0 0 0 4px rgba(164,179,255,.3);animation:hsPulse 2.6s ease-in-out infinite}
+@keyframes hsPulse{0%,100%{box-shadow:0 0 0 4px rgba(164,179,255,.3)}50%{box-shadow:0 0 0 9px rgba(164,179,255,.08)}}
+@media (prefers-reduced-motion:reduce){.scan-fig .hs{animation:none}}
+.scan-info .scan-name-logo{display:block;height:1.5rem;width:auto;margin-bottom:1.1rem}
+.scan-info h3{font-size:clamp(1.6rem,3.6vw,2.3rem);font-weight:700;line-height:1.25;letter-spacing:-.03em}
+.scan-info .scan-sub{color:var(--text-light-2);margin-top:.8rem;font-weight:300}
+.scan-list{list-style:none;margin:clamp(1.6rem,3vw,2.2rem) 0 0;padding:0;border-top:1px solid var(--line-dark)}
+.scan-list li{display:grid;grid-template-columns:2.2rem 1fr;gap:.2rem .9rem;padding:1rem 0;border-bottom:1px solid var(--line-dark)}
+.scan-list .n{grid-row:span 2;width:1.8rem;height:1.8rem;border-radius:50%;background:var(--accent);color:var(--ink);font-size:.74rem;font-weight:700;display:grid;place-items:center}
+.scan-list b{font-size:1.08rem;font-weight:700}
+.scan-list span.d{color:var(--text-light-2);font-size:.95rem}
+@media (max-width:820px){.scan{grid-template-columns:1fr}}
+.flow{list-style:none;margin:clamp(2.5rem,6vw,3.5rem) 0 0;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:clamp(1.3rem,2vw,1.6rem)}
+.flow li{position:relative;border:1px solid var(--line-dark);border-radius:18px;padding:1.2rem 1.1rem;background:rgba(255,255,255,.04);display:flex;flex-direction:column;gap:.35rem}
+.flow li:not(:last-child)::after{content:"→";position:absolute;right:-1.2rem;top:50%;transform:translateY(-50%);color:var(--accent);font-size:1rem;line-height:1}
+.flow .when{font-size:.78rem;font-weight:700;letter-spacing:.06em;color:var(--accent)}
+.flow b{font-size:1.08rem;font-weight:700}
+.flow .d{color:var(--text-light-2);font-size:.92rem;font-weight:300}
+.flow-loop{margin:1.2rem 0 0;border:1px solid var(--accent);background:rgba(164,179,255,.1);border-radius:18px;padding:1rem 1.3rem;font-weight:500;display:flex;gap:.7rem;align-items:baseline}
+.flow-loop .ic{color:var(--accent);font-weight:700}
+.flow.four{grid-template-columns:repeat(4,minmax(0,1fr))}
+.flow.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+.bm-h{margin-top:clamp(3rem,7vw,4.5rem);font-size:clamp(1.3rem,3vw,1.6rem);font-weight:700;letter-spacing:-.02em}
+.bm-h + .flow,.bm-h + .svc{margin-top:1.4rem}
+.svc{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(1rem,2.5vw,1.6rem);margin-top:clamp(2.5rem,6vw,3.5rem)}
+.svc-card{border:1px solid var(--accent);background:rgba(164,179,255,.08);border-radius:22px;padding:1.6rem 1.5rem;display:flex;flex-direction:column;gap:.5rem}
+.svc-card .tag{font-size:.78rem;font-weight:700;letter-spacing:.1em;color:var(--accent)}
+.svc-card h3{font-size:clamp(1.25rem,2.6vw,1.5rem);font-weight:700;letter-spacing:-.02em}
+.svc-card p{color:var(--text-light-2);font-weight:300}
+@media (max-width:760px){.svc{grid-template-columns:1fr}}
+@media (max-width:1100px){.flow{grid-template-columns:repeat(2,minmax(0,1fr))}.flow li:not(:last-child)::after{display:none}.flow li:last-child{grid-column:1/-1}.flow.four,.flow.three{grid-template-columns:repeat(2,minmax(0,1fr))}.flow.four li:last-child{grid-column:auto}}
+@media (max-width:520px){.flow,.flow.four,.flow.three{grid-template-columns:1fr}}
+.results{margin-top:clamp(3rem,7vw,5rem)}
+.results h3{font-size:clamp(1.3rem,3vw,1.6rem);font-weight:700;letter-spacing:-.02em}
+.results ul{list-style:none;margin:1.4rem 0 0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(1rem,2.5vw,1.6rem)}
+.results li{display:flex;flex-direction:column;gap:.35rem;border-top:1px solid var(--line-dark);padding-top:1.1rem}
+.results li b{font-size:1.1rem;font-weight:700}
+.results li span{color:var(--text-light-2);font-size:.95rem;font-weight:300}
+@media (max-width:900px){.results ul{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:520px){.results ul{grid-template-columns:1fr}}
+
+/* 사업 모델 */
+.case{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(2rem,6vw,5rem);align-items:center;margin-top:clamp(3rem,7vw,5rem)}
+@media(max-width:820px){.case{grid-template-columns:minmax(0,1fr)}}
+.case ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:1.6rem}
+.case li{display:flex;flex-direction:column;gap:.3rem;border-top:1px solid var(--line-dark);padding-top:1.2rem}
+.case li b{font-size:1.25rem;font-weight:700}
+.case li span{color:var(--text-light-2);font-weight:300}
+.room{width:100%;height:auto;display:block;background:#0f1545;border:1px solid var(--line-dark);border-radius:22px}
+.maphint{display:flex;align-items:center;gap:.6rem;margin:0 0 .9rem;font-size:clamp(1.15rem,2.6vw,1.4rem);font-weight:700;letter-spacing:-.02em;color:var(--accent)}
+.maphint::before{content:"";width:.8rem;height:.8rem;border-radius:50%;background:var(--accent);box-shadow:0 0 0 .3rem rgba(164,179,255,.25);flex:none}
+.pt{cursor:pointer;outline:none}
+.pt .dot{stroke:#fff;stroke-width:1.5}
+.pt .ring{fill:none}
+.pt.sel .ring{stroke:#fff;stroke-width:3}
+.readout{margin-top:1rem;background:#0f1545;border:1px solid var(--line-dark);border-radius:22px;padding:1.1rem 1.3rem;display:flex;flex-direction:column;gap:.5rem}
+.readout .rlabel{font-size:.85rem;color:var(--text-light-2)}
+.readout .rbig{font-size:2rem;font-weight:700;line-height:1.1;letter-spacing:-.02em;color:var(--accent)}
+.readout .rbig.hot{color:#ff9d75}
+.readout dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:.35rem 1rem}
+.readout dt{color:var(--text-light-2);font-size:.9rem}
+.readout dd{margin:0;font-weight:500}
+.cap{font-size:.85rem;color:var(--text-light-2);margin-top:.8rem}
+.badge{display:inline-block;font-size:.8rem;color:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:.15rem .8rem;margin-bottom:1.2rem}
+
+/* 비전 */
+.road{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;margin-top:clamp(3rem,7vw,5rem);text-align:left}
+@media(max-width:760px){.road{grid-template-columns:minmax(0,1fr)}}
+.stage{background:var(--white);border-radius:22px;padding:1.8rem;display:flex;flex-direction:column;gap:.6rem;min-height:14rem}
+.stage small{font-weight:700;color:var(--text-dark-2);font-size:.8rem;letter-spacing:.14em}
+.stage h3{font-size:1.5rem;font-weight:700;letter-spacing:-.02em}
+.stage p{color:var(--text-dark-2)}
+.stage.goal{background:var(--ink);color:var(--text-light)}
+.stage.goal small{color:var(--accent)}
+.stage.goal p{color:var(--text-light-2)}
+/* 비전: AI 기반 예지보전 시스템 (장기 목표) */
+.ai{margin-top:clamp(3rem,7vw,5rem);background:var(--ink);color:var(--text-light);border-radius:28px;padding:clamp(1.8rem,4.5vw,3.2rem);text-align:left}
+.ai-tag{display:inline-block;font-size:.8rem;font-weight:700;color:var(--ink);background:var(--accent);border-radius:999px;padding:.2rem .85rem}
+.ai-name{margin-top:1.1rem;font-size:clamp(1rem,2vw,1.2rem);font-weight:900;letter-spacing:.22em;color:var(--accent)}
+.ai h3{font-size:clamp(1.6rem,3.6vw,2.4rem);font-weight:700;line-height:1.25;letter-spacing:-.03em;margin-top:.4rem;text-wrap:balance}
+.ai-lead{color:var(--text-light-2);font-size:clamp(1rem,2vw,1.15rem);font-weight:300;margin-top:.9rem;max-width:44rem}
+.ai-steps{list-style:none;margin:clamp(1.8rem,4vw,2.6rem) 0 0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(1.3rem,2vw,1.6rem)}
+.ai-steps li{position:relative;border:1px solid var(--line-dark);border-radius:18px;padding:1.2rem 1.1rem;background:rgba(255,255,255,.04);display:flex;flex-direction:column;gap:.35rem}
+.ai-steps li:not(:last-child)::after{content:"→";position:absolute;right:-1.2rem;top:50%;transform:translateY(-50%);color:var(--accent);font-size:1rem;line-height:1}
+.ai-steps li:last-child{border-color:var(--accent);background:rgba(164,179,255,.1)}
+.ai-steps .when{font-size:.78rem;font-weight:700;letter-spacing:.1em;color:var(--accent)}
+.ai-steps b{font-size:1.08rem;font-weight:700}
+.ai-steps .d{color:var(--text-light-2);font-size:.92rem;font-weight:300}
+.ai-note{margin-top:1.2rem;font-size:.85rem;color:var(--text-light-2)}
+@media (max-width:980px){.ai-steps{grid-template-columns:repeat(2,minmax(0,1fr))}.ai-steps li:not(:last-child)::after{display:none}}
+@media (max-width:520px){.ai-steps{grid-template-columns:1fr}}
+
+/* 회사 */
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:2rem;margin-top:clamp(3rem,7vw,4.5rem);text-align:left}
+.facts div{border-top:1px solid var(--line-light);padding-top:1rem}
+.facts dt{font-size:.85rem;color:var(--text-dark-2)}
+.facts dd{margin:.25rem 0 0;font-size:1.15rem;font-weight:500}
+.todo{color:var(--text-dark-2);font-weight:400;background:#e8ebf5;border-radius:6px;padding:0 .4rem}
+footer{background:var(--ink);color:var(--text-light-2);font-size:.82rem;padding-block:2rem}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:.6rem}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+/* 기술 소개: 흰 띠, 왼쪽 정렬. 그래프·펼침 목록·계산기 */
+.tech .block{margin-top:clamp(3rem,7vw,4.5rem)}
+.tech .block h3{font-size:clamp(1.4rem,3.4vw,1.7rem);font-weight:700;letter-spacing:-.02em;margin-bottom:.8rem}
+.tech .block > p{color:var(--text-dark-2);font-size:1.05rem;max-width:44rem}
+.tech .block.list h3{margin-bottom:0;padding-bottom:.8rem;border-bottom:1px solid var(--line-light)}
+@media(min-width:900px){
+  .tech .block.list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:3rem;align-items:start}
+  .tech .block.list h3{grid-column:1/-1}
+}
+.seg{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:1.2rem}
+.seg button{font:inherit;cursor:pointer;border:1px solid var(--line-light);background:var(--white);color:var(--text-dark);padding:.5rem 1.1rem;border-radius:999px}
+.seg button[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:#fff;font-weight:700}
+.chart{width:100%;height:auto;display:block;background:var(--paper);border-radius:22px;margin-top:1rem}
+.chart text{font-size:11px;fill:var(--text-dark-2);font-family:var(--font)}
+.verdict{border-radius:16px;padding:1rem 1.2rem;font-weight:700;margin-top:1rem}
+.verdict.ok{background:#dcf3e3;color:#17803d}
+.verdict.bad{background:#fde4e1;color:#b42318}
+.verdict small{display:block;font-weight:400;color:var(--text-dark);margin-top:.25rem}
+.tech .small{font-size:.85rem;color:var(--text-dark-2);margin-top:.8rem}
+.tech .tech-item{border-bottom:1px solid var(--line-light);padding:1.4rem 0 1.5rem}
+.tech .tech-item h4{margin:0 0 .7rem;font-weight:700;font-size:1.2rem;letter-spacing:-.02em}
+.tech .tech-item .body{display:flex;flex-direction:column;gap:.6rem;color:var(--text-dark-2)}
+.say{background:#e8ebfa;color:var(--text-dark);border-radius:12px;padding:.6rem .9rem;font-size:.95rem}
+
+/* v4 추가: 왜 지금 / 조기 포착 그래프 / 적용 분야 / 팀 */
+.now .nowgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(1rem,2.5vw,1.6rem);margin-top:clamp(2.5rem,6vw,4rem);text-align:left}
+.now .nowcard{background:rgba(255,255,255,.05);border:1px solid var(--line-dark);border-radius:22px;padding:1.8rem}
+.now .nowcard .no{font-size:.8rem;font-weight:700;letter-spacing:.14em;color:var(--accent)}
+.now .nowcard h3{font-size:1.35rem;font-weight:700;letter-spacing:-.02em;margin:.7rem 0 .6rem}
+.now .nowcard p{color:var(--text-light-2)}
+@media (max-width:820px){.now .nowgrid{grid-template-columns:1fr}}
+
+.early{margin:clamp(3rem,7vw,5rem) auto 0;max-width:42rem;text-align:left}
+.early h3{font-size:clamp(1.3rem,3vw,1.6rem);font-weight:700;letter-spacing:-.02em;text-align:center;margin-bottom:1rem}
+.early svg{display:block;width:100%;height:auto;background:#fff;border-radius:22px;padding:.5rem}
+.early .small{text-align:center;font-size:.85rem;color:var(--text-dark-2);margin-top:.8rem}
+.early.pre .curve{stroke-dasharray:900;stroke-dashoffset:900}
+.early.pre .mk{opacity:0}
+.early.pre.on .curve{animation:earlyDraw 2.4s ease-out forwards}
+.early.pre.on .mk{animation:earlyFade .6s ease-out forwards}
+.early.pre.on .mk1{animation-delay:1.2s}.early.pre.on .mk2{animation-delay:1.8s}.early.pre.on .mk3{animation-delay:2.3s}
+@keyframes earlyDraw{to{stroke-dashoffset:0}}
+@keyframes earlyFade{to{opacity:1}}
+
+
+
+/* 기술 카드: 아이콘 + 제목 + 한 줄 설명 + 비유 */
+.tech .tcards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.2rem;margin-top:1.6rem}
+.tech .tcards.four{grid-template-columns:repeat(4,minmax(0,1fr))}
+.tech .tcard{background:var(--paper);border-radius:22px;padding:1.5rem 1.4rem 1.4rem;display:flex;flex-direction:column;gap:.85rem}
+.tech .tcard .top{display:flex;align-items:center;justify-content:space-between}
+.tech .tcard .ic{width:3rem;height:3rem;border-radius:14px;background:var(--navy);color:#fff;display:grid;place-items:center}
+.tech .tcard .ic svg{width:1.7rem;height:1.7rem}
+.tech .tcard .no{font-size:.85rem;font-weight:700;letter-spacing:.1em;color:#9aa1c8}
+.tech .tcard h4{margin:.1rem 0 0;font-size:1.25rem;font-weight:700;letter-spacing:-.02em}
+.tech .tcard .what{color:var(--text-dark);font-size:1.02rem;line-height:1.6}
+.tech .tcard .say{margin-top:auto;background:#fff;font-size:.92rem;line-height:1.55}
+.tech .tcard .more{font-size:.92rem;font-weight:700;color:var(--navy);text-decoration:none}
+.case{grid-template-columns:minmax(0,1fr);max-width:48rem;margin-inline:auto}
+.tech .tcards{align-items:start}
+.tech details.tcard{display:block}
+.tech details.tcard summary{list-style:none;cursor:pointer;display:flex;flex-direction:column;gap:.85rem;border-radius:14px}
+.tech details.tcard summary::-webkit-details-marker{display:none}
+.tech details.tcard summary:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
+.tech .tcard .tog{font-size:.9rem;font-weight:700;color:var(--navy);display:flex;align-items:center;gap:.35rem}
+.tech .tcard .tog::before{content:"쉬운 비유 보기"}
+.tech .tcard .tog::after{content:"+";font-size:1.2rem;line-height:1;transition:transform .2s}
+.tech .tcard[open] .tog::before{content:"접기"}
+.tech .tcard[open] .tog::after{transform:rotate(45deg)}
+.tech .tcard .more-body{display:flex;flex-direction:column;gap:.8rem;margin-top:.9rem}
+@media (max-width:1100px){.tech .tcards.four{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:760px){.tech .tcards,.tech .tcards.four{grid-template-columns:1fr}}
+/* 사후 vs 사전 비교 */
+.twin{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:1rem;margin-top:1.2rem}
+.tw{margin:0}
+.tw figcaption{font-weight:700;margin-bottom:.4rem;color:var(--text-dark)}
+.twin .chart{margin-top:0}
+@media (max-width:820px){.twin{grid-template-columns:1fr}}
+/* v6: 첫 화면 부제·단계, 서비스 상태, 결과물 판단 자료, 준비 현황, 모바일 메뉴 */
+.hero p.sub{font-size:clamp(1rem,2.2vw,1.25rem);color:var(--text-light-2);margin:1.4rem auto 0;max-width:40rem;font-weight:300;text-wrap:balance}
+.hero p.chip{display:inline-block;margin-top:1.1rem;border:1px solid rgba(164,179,255,.5);color:var(--accent);border-radius:999px;padding:.3rem .95rem;font-size:.85rem;font-weight:500}
+.hero .cta{margin-top:1.4rem}
+.svc-card .state{align-self:flex-start;margin-top:.3rem;font-size:.75rem;font-weight:700;color:var(--ink);background:var(--accent);border-radius:999px;padding:.12rem .7rem}
+.results-wrap{margin-top:clamp(4rem,9vw,6.5rem);padding-top:clamp(3rem,7vw,4.5rem);border-top:1px solid var(--line-dark)}
+.results-wrap .h2s{font-size:clamp(1.8rem,4.6vw,2.8rem)}
+.mapttl{font-weight:700;margin:0 0 .4rem;font-size:1.05rem}
+.mapttl span{font-weight:400;color:var(--text-light-2);font-size:.85rem}
+.colornote{font-size:.82rem;color:var(--text-light-2);margin-top:.6rem}
+.results-wrap .case{grid-template-columns:minmax(0,7fr) minmax(0,5fr);max-width:none;align-items:start;margin-top:clamp(2rem,5vw,3rem)}
+@media(max-width:900px){.results-wrap .case{grid-template-columns:minmax(0,1fr)}}
+.case .side{display:flex;flex-direction:column;gap:1.2rem;align-self:start}
+.judge,.deliv{border:1px solid var(--line-dark);border-radius:20px;padding:1.3rem 1.3rem;background:rgba(255,255,255,.04)}
+.judge h4,.deliv h4{margin:0 0 .8rem;font-size:1.05rem;font-weight:700}
+.judge dl{margin:0;display:grid;gap:.25rem}
+.judge dt{color:var(--accent);font-size:.82rem;font-weight:700;margin-top:.5rem}
+.judge dd{margin:0;color:var(--text-light-2);font-size:.92rem}
+.judge .note{margin-top:.9rem;font-size:.82rem;color:var(--text-light-2)}
+.deliv p{color:var(--text-light-2);font-size:.92rem;margin-top:.5rem}
+.deliv p b{display:block;color:var(--text-light);font-size:.82rem;margin-bottom:.15rem}
+.status-list{list-style:none;margin:1rem 0 0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1rem}
+.status-list li{border:1px solid var(--line-light);border-radius:18px;padding:1rem 1.1rem;display:flex;flex-direction:column;gap:.35rem;background:var(--paper)}
+.status-list b{font-size:1rem}
+.status-list span{font-size:.88rem;color:var(--navy);font-weight:700}
+@media (max-width:900px){.status-list{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:520px){.status-list{grid-template-columns:1fr}}
+.tech .scan{margin-top:0}
+.tech .scan-sub,.tech .scan-list span.d{color:var(--text-dark-2)}
+.tech .scan-list,.tech .scan-list li{border-color:var(--line-light)}
+.tech .muted{font-weight:400;color:var(--text-dark-2);font-size:.8em}
+.tcard .state{display:inline-block;margin-top:.6rem;font-size:.72rem;font-weight:700;border-radius:999px;padding:.1rem .6rem}
+.tcard .state.light{background:#e8ebfa;color:var(--navy)}
+.now .src{margin-top:1.2rem;font-size:.8rem;color:var(--text-light-2)}
+.now .plan-flow{text-align:left}
+.now .later{margin-top:1.4rem;color:var(--text-light-2);font-size:.95rem}
+.now .later span{display:inline-block;margin-right:.7rem;font-size:.75rem;font-weight:700;letter-spacing:.06em;color:var(--accent);border:1px solid rgba(164,179,255,.5);border-radius:999px;padding:.1rem .6rem}
+.topics-h{margin-top:clamp(2rem,5vw,3rem);font-size:1.1rem;font-weight:700}
+.topics{list-style:none;padding:0;margin:1rem auto 0;display:flex;flex-wrap:wrap;justify-content:center;gap:.5rem;max-width:40rem}
+.topics li{border:1px solid var(--line-light);background:var(--paper);color:var(--navy);border-radius:999px;padding:.4rem 1rem;font-size:.92rem;font-weight:500}
+.pt:focus .ring,.pt:focus-visible .ring{stroke:#fff;stroke-width:2.5;stroke-dasharray:3 3}
+.menu-btn{display:none;font:inherit;font-size:.85rem;border:1px solid var(--line-light);background:#fff;color:var(--navy);border-radius:999px;padding:.3rem .9rem;cursor:pointer}
+@media(max-width:640px){
+  nav.top .wrap{position:relative}
+  .menu-btn{display:inline-block}
+  nav.top ul{display:none;position:absolute;top:3.2rem;right:16px;left:16px;flex-direction:column;gap:0;background:#fff;border:1px solid var(--line-light);border-radius:16px;padding:.4rem;box-shadow:0 18px 40px -20px rgba(20,28,85,.35)}
+  nav.top.open ul{display:flex}
+  nav.top ul li{display:block !important}
+  nav.top ul a{display:block;padding:.7rem .9rem;font-size:.95rem}
+}
+.muted-d{font-weight:400;color:var(--text-light-2);font-size:.8em}
+#contact .longterm{margin-top:.5rem;font-size:.9rem;color:var(--text-dark-2)}
+
+/* 4차: 화면 검토 반영 */
+.hero .hero-logo{width:clamp(11rem,28vw,18rem);margin-bottom:1.8rem}
+.hero p.sub{font-weight:400;color:#dfe3fb;font-size:clamp(1.05rem,2.3vw,1.3rem)}
+.nw{white-space:nowrap}
+.hero p.sub,.hero p.chip{text-shadow:0 0 14px rgba(11,16,56,.95),0 0 4px rgba(11,16,56,.9)}
+@media(max-width:640px){.hero canvas{opacity:.5}}
+.tcard .state,.scan-info .state{display:inline-block;width:fit-content;align-self:flex-start;vertical-align:middle}
+.scan-info h3 .state{font-size:.8rem;font-weight:700;letter-spacing:0;margin-left:.4rem;padding:.15rem .7rem;border-radius:999px;background:#e8ebfa;color:var(--navy)}
+.readout .rbig,.readout .rbig.hot{color:var(--text-light)}
+.maplegend{list-style:none;margin:.7rem 0 0;padding:0;display:flex;flex-wrap:wrap;gap:.35rem 1rem;font-size:.85rem;color:var(--text-light-2)}
+.maplegend li{display:flex;align-items:center;gap:.4rem}
+.case ul.maplegend{flex-direction:row;gap:.35rem 1rem}
+.case .maplegend li{flex-direction:row;border-top:none;padding-top:0}
+.maplegend i{display:inline-block;width:.75rem;height:.75rem;flex:none}
+.maplegend .d{border-radius:50%}.maplegend .hot{background:#ff7a45}.maplegend .low{background:#a4b3ff}
+.maplegend .e{width:1rem;height:.65rem;border-radius:50%;background:rgba(164,179,255,.16);border:1px dashed rgba(164,179,255,.8)}
+.maplegend .m{border:1px dashed #6b79c4}
+.maplegend .a{border-radius:3px;background:#fff}
+#contact .topics{gap:.2rem 0}
+#contact .topics li{border:none;background:none;padding:0 .6rem;color:var(--text-dark-2);font-weight:500;position:relative}
+#contact .topics li+li::before{content:"·";position:absolute;left:-.15rem;color:var(--line-light)}
+#contact a.mail{color:var(--navy);text-decoration:underline;text-decoration-color:var(--accent);text-underline-offset:.25em;text-decoration-thickness:2px}
+#contact a.mail:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+
+/* 4차-2: 접기와 비중 조정 */
+.problem.band{padding-block:clamp(4rem,9vw,6.5rem)}
+.problem .pulse{width:min(20rem,60%);margin-top:1.6rem}
+.problem .pgrid{margin-top:clamp(1.8rem,4vw,2.6rem)}
+.problem .pcard{padding:1.3rem 1.3rem}
+.svc-card .gets{margin-top:.4rem;font-size:.9rem;color:var(--text-light);border-top:1px solid var(--line-dark);padding-top:.7rem}
+.svc-card .gets b{display:block;font-size:.75rem;color:var(--accent);margin-bottom:.15rem;letter-spacing:.04em}
+.flowline{margin-top:1.1rem;font-weight:700;font-size:clamp(1rem,2.2vw,1.15rem);color:var(--text-light)}
+details.more{margin-top:1rem}
+details.more>summary{cursor:pointer;list-style:none;display:inline-flex;align-items:center;gap:.5rem;font-weight:700;font-size:.95rem;color:var(--navy);padding:.35rem 0;border-bottom:1px solid currentColor}
+details.more>summary::-webkit-details-marker{display:none}
+details.more>summary::after{content:"+";font-weight:700;font-size:1.05em;line-height:1}
+details.more[open]>summary::after{content:"−"}
+details.more.dark>summary{color:var(--accent)}
+details.more.small>summary{font-size:.85rem}
+details.more .sumnote{font-weight:500;font-size:.78rem;color:var(--text-dark-2);border:1px solid var(--line-light);border-radius:999px;padding:.05rem .55rem}
+details.more .inner{margin-top:.8rem;color:var(--text-dark-2)}
+details.more>summary:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:4px}
+details.more .flow{margin-top:1.2rem}
+.readout .rbig,.readout .rbig.hot{font-size:1.45rem}
+.readout details.more{margin-top:.2rem}
+.readout details.more dl{margin-top:.6rem}
+.scan-fig figcaption{top:3.5%;left:4%;right:auto;bottom:auto;font-size:.8rem;font-weight:700;color:var(--ink);background:var(--accent);padding:.25rem .7rem}
+.scan-info details.more .scan-list{margin-top:.8rem}
+.now .reasons{list-style:none;margin:clamp(2rem,5vw,3rem) auto 0;padding:0;max-width:46rem;text-align:left;display:flex;flex-direction:column;gap:1rem}
+.now .reasons li{display:grid;grid-template-columns:11rem 1fr;gap:.2rem 1.4rem;border-top:1px solid var(--line-dark);padding-top:1rem}
+.now .reasons b{font-size:1.05rem}
+.now .reasons span{color:var(--text-light-2);font-size:.95rem}
+@media(max-width:640px){.now .reasons li{grid-template-columns:1fr}}
+.now details.center-sum{text-align:center}
+.now details.more .src{margin-top:.6rem}
+.ai-steps{gap:.8rem 1.6rem}
+.ai-steps li{border:none;background:none;padding:0 0 0 .9rem;border-left:2px solid var(--line-dark);border-radius:0}
+.ai-steps li:last-child{border-color:var(--accent);background:none}
+.ai-steps li:not(:last-child)::after{display:none}
+.ai-steps .d{font-size:.85rem}
+
+/* 4차-3: 화면 마무리 보정 */
+.nw{white-space:nowrap}
+.now .later i{font-style:normal}
+.mapttl i{font-style:normal}
+.scan-fig figcaption{top:auto;bottom:3.5%;left:4%}
+@media(max-width:640px){
+  #contact .topics{flex-direction:column;align-items:center;gap:.35rem}
+  #contact .topics li+li::before{display:none}
+}
+
+/* 4차-4 */
+.mbr{display:none}
+@media(max-width:640px){
+  .mbr{display:inline}
+  .dsep{display:none}
+  .now .later span{display:table;margin:0 auto .5rem}
+}
+
+/* 5차: 첫 화면 물결이 글자와 겹치지 않으므로 휴대폰 흐림 해제 */
+@media(max-width:640px){.hero canvas{opacity:1}}
+
+/* 9차: 진행 순서 두 줄 */
+.flowline{display:flex;gap:.9rem;align-items:baseline}
+.flowline + .flowline{margin-top:.55rem}
+.flowline .fl-tag{flex:none;min-width:5rem;color:var(--accent);font-size:.8em;letter-spacing:.02em}
+@media (max-width:640px){.flowline{display:block}.flowline .fl-tag{display:block;margin-bottom:.15rem}.flowline + .flowline{margin-top:.9rem}}
+</style>
+<nav class="top" aria-label="주 메뉴">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="BEFOREMATH 처음으로"><img src="assets/logo-navy.png" alt="BEFOREMATH"></a>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="navlist">메뉴</button>
+    <ul id="navlist">
+      <li><a href="#service">서비스</a></li>
+      <li><a href="#results">결과물</a></li>
+      <li><a href="#tech">기술·현황</a></li>
+      <li><a href="#plan">적용 계획</a></li>
+      <li><a href="#road">비전</a></li>
+      <li><a href="#contact">문의</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero dark" id="top">
+  <canvas id="wave" aria-hidden="true"></canvas>
+  <div class="wrap">
+    <div class="hero-logo"><img src="assets/logo-white.png" alt="BEFOREMATH" style="width:100%;height:auto;display:block"><img src="assets/tagline-white.png" alt="Precede uncertainty" style="width:82.6%;height:auto;display:block;margin:-.1rem auto 0"></div>
+    <h1>전자파로<br>설비의 내일을 읽습니다.</h1>
+    <p class="sub"><span class="nw">늘어나는 무선통신기기,</span> <span class="nw">설비의 안전한 자리를 찾습니다.</span></p>
+    <div><a class="cta" href="#service">서비스 보기</a></div>
+  </div>
+</header>
+
+<section class="band white center problem" id="problem">
+  <div class="wrap">
+    <p class="eyebrow">해결하려는 문제</p>
+    <p class="big"><span class="dim">무선통신기기는 늘어나는데,</span><br>그 <span class="hl">전자파가</span> 주변 기기에 주는 영향은 확인하기 어렵습니다.</p>
+    <p class="lead">정밀 기기 곁에 무선통신기기가 늘어나는 현장이라면,<br>설비에 미치는 영향을 살펴볼 필요가 있습니다.</p>
+    <svg class="pulse" viewBox="0 0 600 70" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M0 35H230l7-4 7 8 7-4H430" stroke="#c9cee8" stroke-width="3"/>
+      <path d="M430 35L446 8L464 62L478 22L488 35" stroke="#ff7a45" stroke-width="3.5"/>
+      <path d="M488 35H600" stroke="#c9cee8" stroke-width="3"/>
+    </svg>
+    <div class="pgrid">
+      <div class="pcard"><span class="no">01</span><h3>측정 위치를 함께 기록</h3><p>여러 지점의 측정값을 위치와 함께 기록해, 방 안의 전자파 분포를 분석할 근거를 만듭니다.</p></div>
+      <div class="pcard"><span class="no">02</span><h3>시간에 따른 변화를 기록</h3><p>가끔 나타나는 강한 전자파와 시간에 따른 변화는 짧은 한 번의 측정으로 담기 어렵습니다.</p></div>
+      <div class="pcard"><span class="no">03</span><h3>측정 조건을 남겨 비교</h3><p>측정 조건을 기록해 두어야, 설치 전후나 설비가 바뀐 뒤의 결과를 견주어 볼 수 있습니다.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="band dark" id="service">
+  <div class="wrap">
+    <span class="badge">서비스</span>
+    <h2>설치 위치를 제시하고,<br>설비 영향을 평가합니다.</h2>
+    <div class="svc">
+      <div class="svc-card"><span class="tag">서비스 01</span><h3>전자파 맵핑 · 설치 위치 제시</h3><p>방 안의 전자파를 위치·시간과 함께 측정해 지도로 만들고, PS-LTE 안테나 같은 무선통신기기를 둘 위치를 검토 조건과 함께 지도 위에 제시합니다.</p><p class="gets"><b>받는 결과</b>전자파 분포 지도 · 설치 제시 위치와 검토 조건 · 측정 기록</p><span class="state">준비 중</span></div>
+      <div class="svc-card"><span class="tag">서비스 02</span><h3>설비에 대한 전자파 환경영향평가</h3><p>현장의 전자파가 주변 설비에 주는 영향을 설비의 내성 자료와 적용 기준에 비추어 평가하고, 보고서로 정리합니다. 평가 대상·범위와 진행 절차는 별도로 협의합니다.</p><p class="gets"><b>받는 결과</b>평가 보고서 · 근거 자료</p><span class="state">준비 중</span></div>
+    </div>
+    <h3 class="bm-h">진행 순서</h3>
+    <p class="flowline"><span class="fl-tag">서비스 01</span><span><span class="nw">현장 협의 →</span> <span class="nw">맵핑 측정 →</span> <span class="nw">분석 →</span> <span class="nw">제시와 정리</span></span></p>
+    <p class="flowline"><span class="fl-tag">서비스 02</span><span><span class="nw">범위 협의 →</span> <span class="nw">자료 확인 →</span> <span class="nw">현장 측정 →</span> <span class="nw">평가와 보고</span></span></p>
+    <details class="more dark"><summary>서비스 01 단계별 설명 보기</summary>
+    <ol class="flow four" aria-label="진행 순서">
+      <li><span class="when">STEP 1</span><b>현장 협의</b><span class="d">대상 방과 설비, 설비의 내성 자료, 설치할 무선통신기기의 송신 조건을 확인합니다.</span></li>
+      <li><span class="when">STEP 2</span><b>맵핑 측정</b><span class="d">정해진 시간 동안 연속 측정하고, 위치·시각·측정 조건을 함께 기록합니다.</span></li>
+      <li><span class="when">STEP 3</span><b>분석</b><span class="d">측정한 분포와 설치할 기기의 송신 조건으로 후보 위치별 영향을 분석하고, 설비의 내성 자료·적용 기준과 비교합니다.</span></li>
+      <li><span class="when">STEP 4</span><b>제시와 정리</b><span class="d">검토 조건과 함께 설치 위치를 제시하고, 결과를 기록과 보고서로 남깁니다.</span></li>
+    </ol>
+    </details>
+    <p class="flow-loop"><span class="ic">↻</span><span>전자파 환경에 영향을 줄 수 있는 변경이 생기면, 변경 내용과 이전 측정 조건을 바탕으로 재검토 범위를 협의합니다.</span></p>
+
+    <div id="results" class="results-wrap">
+      <p class="eyebrow">결과물</p>
+      <h2 class="h2s">분포는 지도로,<br>판단 근거는 기록으로.</h2>
+      <p class="lead">업무별로 준비하는 결과물의 구성을 개념 예시로 보여 드립니다.</p>
+      <div class="case">
+        <div>
+          <p class="mapttl">전자파 분포와 설치 제시 위치 <span>· 개념 예시 · 가상 공간 · <i class="nw">설명용 전계값</i></span></p>
+          <p class="maphint" id="mapHint">점을 눌러 보세요</p>
+          <svg id="roomMap" class="room" viewBox="0 0 400 252" role="group" aria-label="개념 예시: 가상 방 평면도 위의 측정점과 설치 제시 위치. 점을 누르면 설명용 전계값이 표시됩니다.">
+          <rect x="24" y="24" width="352" height="222" rx="6" fill="none" stroke="#3d4a9a" stroke-width="3"/>
+          <rect x="150" y="24" width="12" height="90" fill="#3d4a9a"/>
+          <rect x="280" y="150" width="70" height="60" fill="#1f2a72"/>
+          <text x="285" y="185" font-size="11" fill="#b6bde3" font-family="Noto Sans KR, sans-serif">금속 구조물</text>
+          <rect x="40" y="215" width="55" height="25" fill="none" stroke="#6b79c4" stroke-dasharray="4 3"/>
+          <text x="44" y="232" font-size="11" fill="#b6bde3" font-family="Noto Sans KR, sans-serif">미측정</text>
+          <g aria-hidden="true" fill="rgba(164,179,255,.16)" stroke="rgba(164,179,255,.6)" stroke-dasharray="3 3">
+            <ellipse cx="185" cy="100" rx="30" ry="24"/><ellipse cx="285" cy="100" rx="32" ry="24"/>
+            <ellipse cx="160" cy="195" rx="36" ry="24"/><ellipse cx="250" cy="185" rx="26" ry="22"/>
+          </g>
+          <g id="pts"></g>
+          <g class="ant" role="img" aria-label="설치 제시 위치(설명용 예시)">
+            <circle cx="276" cy="44" r="17" fill="rgba(255,255,255,.14)"/>
+            <rect x="266" y="34" width="20" height="20" rx="5" fill="#fff"/>
+            <path d="M276 51V42M271.5 40.5a6 6 0 0 1 9 0M269 38a9.5 9.5 0 0 1 14 0" stroke="#141C55" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+            <circle cx="276" cy="41.5" r="1.4" fill="#141C55"/>
+            <text x="276" y="72" text-anchor="middle" font-size="10" font-weight="700" fill="#fff" font-family="Noto Sans KR, sans-serif">설치 제시(예시)</text>
+          </g>
+          
+        </svg>
+          <ul class="maplegend" aria-label="지도 범례"><li><i class="d hot"></i>1 V/m 초과</li><li><i class="d low"></i>1 V/m 이하</li><li><i class="e"></i>추정 영역</li><li><i class="m"></i>미측정</li><li><i class="a"></i>설치 제시(예시)</li></ul>
+          <p class="colornote">색은 전계 세기의 표시 구간이며, 기준 초과나 위험 여부를 뜻하지 않습니다.</p>
+          <div class="readout" id="mapRead" aria-live="polite">
+          <span class="rlabel">선택한 측정점</span>
+          <div class="rbig" id="rv">-</div>
+          <dl>
+            <dt>측정점</dt><dd id="rp">-</dd>
+            <dt>세기</dt><dd id="rvm">-</dd>
+            </dl>
+          <details class="more dark small"><summary>측정 정보 더 보기</summary>
+          <dl>
+            <dt>주파수</dt><dd id="rf">-</dd>
+            <dt>발생 시각</dt><dd id="rt">-</dd>
+            <dt>지정시간</dt><dd id="rd">-</dd>
+            <dt>예시 비교값과의 차이</dt><dd id="rm">-</dd>
+            <dt>가장 센 곳과의 차이</dt><dd id="rx">-</dd>
+          </dl>
+          </details>
+        </div>
+          <p class="cap" id="mapCap">실제 현장 측정값이 아닌 가상 예시입니다. 흰색 안테나는 설치 위치 제시 결과를 지도에 표시하는 방식을 보여 주며, 평가 계산으로 도출한 결과가 아닙니다. 예시 비교값은 내성 10 V/m 설비에 8 dB 여유를 가정한 값(132.0 dBµV/m, 약 3.98 V/m)입니다.</p>
+        </div>
+        <div class="side">
+          <div class="judge">
+            <h4>실제 위치 제시에 필요한 판단 자료</h4>
+            <dl>
+              <dt>확인할 자료</dt><dd>주변 설비의 위치와 내성 자료 · 설치할 무선통신기기의 송신 출력과 안테나 특성 · 배치와 이격거리 · 적용 기준</dd>
+              <dt>비교할 내용</dt><dd>후보 위치마다 주변 설비에 닿는 전자파와 평가 여유</dd>
+              <dt>제시할 내용</dt><dd>검토 조건·대상 범위와 함께 설치 위치와 판단 근거</dd>
+            </dl>
+            <p class="note">자료가 부족한 항목은 추가 확인이 필요한 항목으로 남깁니다.</p>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band white tech" id="tech">
+  <div class="wrap">
+    <p class="eyebrow">기술·준비 현황</p>
+    <h2>어떤 근거로 판단하고,<br>어디까지 준비했나요?</h2>
+    <p class="lead">위치 제시에 쓰는 측정·기록 방식과,<br>장비·분석 기술의 현재 준비 상태를 설명합니다.</p>
+
+    <div class="block">
+      <h3>현재 준비 현황</h3>
+      <ul class="status-list">
+        <li><b>측정 장비 MAPPER</b><span>개발 콘셉트 렌더링 단계</span></li>
+        <li><b>분석 소프트웨어</b><span>핵심 기능 시험 단계</span></li>
+        <li><b>AI 전파 예측</b><span>개발 계획</span></li>
+        <li><b>현장 실증</b><span>준비 중</span></li>
+      </ul>
+    </div>
+
+    <div class="block">
+      <div class="scan">
+        <figure class="scan-fig">
+        <img class="main" src="assets/scan-trolley.webp" alt="BEFOREMATH MAPPER 이동형 전자파 측정 장비 개념 렌더링" width="1024" height="1536">
+        <span class="hs" style="left:35%;top:4.5%" aria-hidden="true">1</span>
+        <span class="hs" style="left:77%;top:12.5%" aria-hidden="true">2</span>
+        <span class="hs" style="left:56%;top:38%" aria-hidden="true">3</span>
+        <span class="hs" style="left:62%;top:59%" aria-hidden="true">4</span>
+        <figcaption>개발 콘셉트 렌더링</figcaption>
+      </figure>
+        <div class="scan-info">
+          <img class="scan-name-logo" src="assets/logo-navy.png" alt="BEFOREMATH">
+          <h3>MAPPER <span class="state light">개발 콘셉트</span></h3>
+          <p class="scan-sub">이동형 전파환경 자동 측정 장비 · 개발 콘셉트<br>위치 연동 · 지정시간 연속 측정 · 분포 지도</p>
+          <details class="more"><summary>장비 구성 보기</summary>
+          <ul class="scan-list">
+            <li><span class="n">1</span><b>위치인식기</b><span class="d">위치와 시각을 연동합니다.</span></li>
+            <li><span class="n">2</span><b>측정 안테나</b><span class="d">전파 신호를 수신합니다.</span></li>
+            <li><span class="n">3</span><b>소형 컴퓨터</b><span class="d">자동 제어와 기록을 맡습니다.</span></li>
+            <li><span class="n">4</span><b>스펙트럼 분석기</b><span class="d">주파수와 신호 세기를 측정합니다.</span></li>
+          </ul>
+          </details>
+        </div>
+      </div>
+    </div>
+
+    <div class="block">
+      <h3>측정 시간에 따른 관측 차이 <span class="muted">· 가상 예시</span></h3>
+      <p>측정 시간이 짧으면, 가끔 나타나는 강한 신호를 보지 못할 수 있습니다. 실제 현장에서는 이런 신호가 있는지 측정하기 전에는 알 수 없습니다.</p>
+      <details class="more"><summary>5분·60분 비교 보기 <span class="sumnote">가상 예시 · 기술 성능 자료 아님</span></summary>
+      <p class="inner">같은 가상 신호를 5분만 본 것과 60분 이어서 본 것을 나란히 봅니다.</p>
+      <div class="seg" role="group" aria-label="신호 종류">
+        <button id="m2" aria-pressed="true">튀는 신호가 있을 때</button>
+        <button id="m1" aria-pressed="false">튀는 신호가 없을 때</button>
+      </div>
+      <div class="twin">
+        <figure class="tw"><figcaption>5분 측정</figcaption><svg id="traceS" class="chart" viewBox="0 0 360 230" role="img" aria-label="5분 측정 그래프"></svg></figure>
+        <figure class="tw"><figcaption>60분 연속 측정</figcaption><svg id="traceL" class="chart" viewBox="0 0 500 230" role="img" aria-label="60분 연속 측정 그래프"></svg></figure>
+      </div>
+      <p id="traceMsg" class="verdict ok"></p>
+      <p class="small">가상 신호로 만든 설명용 예시이며, 기술 성능을 나타내지 않습니다. 실제 값은 환경마다 다릅니다.</p>
+      </details>
+    </div>
+
+    <div class="block">
+      <h3>핵심 기술</h3>
+      <div class="tcards">
+        <details class="tcard"><summary><div class="top"><span class="ic"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="24" cy="24" r="5"/><circle cx="8" cy="10" r="3"/><circle cx="40" cy="10" r="3"/><circle cx="8" cy="38" r="3"/><circle cx="40" cy="38" r="3"/><path d="M11 12l9 8M37 12l-9 8M11 36l9-8M37 36l-9-8"/></svg></span><span class="no">01</span></div><span class="state light">개발 계획</span><h4>AI 전파 예측</h4><p class="what">측정하지 못한 곳을 예측하고, 오차 범위를 함께 보여 주는 기능을 개발할 계획입니다.</p><span class="tog"></span></summary><div class="more-body"><p class="say">한마디로, 내비게이션의 예상 도착 시간을 실제 주행 기록으로 계속 고치는 것과 같습니다.</p></div></details>
+        <details class="tcard"><summary><div class="top"><span class="ic"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M24 5l15 5v12c0 10-7 17-15 21C16 39 9 32 9 22V10z"/><path d="M17 24l5 5 9-10"/></svg></span><span class="no">02</span></div><span class="state light">평가 방법</span><h4>안전 여유 평가</h4><p class="what">대상 설비의 내성 자료와 적용 기준(예: 미국 NRC RG 1.180의 8 dB 여유)에 비추어 여유를 검토합니다.</p><span class="tog"></span></summary><div class="more-body"><p class="say">한마디로, 다리의 안전 하중이 10톤이면 그보다 훨씬 가벼운 차만 지나가게 하는 것과 같습니다.</p></div></details>
+        <details class="tcard"><summary><div class="top"><span class="ic"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="11" y="22" width="26" height="19" rx="3"/><path d="M16 22v-6a8 8 0 0 1 16 0v6"/></svg></span><span class="no">03</span></div><span class="state light">설계 원칙</span><h4>기록 추적과 보안</h4><p class="what">측정 결과의 근거 기록과 검토 이력을 남기고, 안전 계측제어망과는 분리해 운영하도록 설계합니다.</p><span class="tog"></span></summary><div class="more-body"><p class="say">한마디로, 모든 숫자에 영수증을 붙여 두고 중요한 설비의 망과는 출입문을 따로 두는 것과 같습니다.</p></div></details>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band dark center now" id="plan">
+  <div class="wrap">
+    <p class="eyebrow">왜 원전부터인가?</p>
+    <h2>가장 높은 신뢰가 필요한 곳에서,<br>먼저 시작합니다.</h2>
+    <p class="lead">국내 운영 원전의 기존 방을 우선 적용 목표로 삼고,<br>검증 결과에 따라 적용 범위를 넓힐 계획입니다.</p>
+    <ul class="reasons">
+      <li><b>들어서는 무선통신망</b><span>국내 원전에도 LTE·5G 무선통신망 구축과 실증이 이어지고 있어, 기존 설비 곁에 무선통신기기를 둘 때의 영향을 함께 살펴볼 필요가 있습니다.</span></li>
+      <li><b>설비 내성과 적용 기준</b><span>원전의 안전 관련 계측제어 설비에는 전자파 적합성 평가 지침(예: 미국 NRC RG 1.180)이 있어, 설비의 내성 자료와 적용 기준을 확인해야 합니다.</span></li>
+      <li><b>늘어나는 계속운전</b><span>계속운전을 신청한 원전 10기 중 3기가 허가를 받았습니다(2026년 10월 기준). 설비를 교체·보강할 때는 변경 전후의 전자파 환경을 다시 살펴볼 필요가 생길 수 있습니다.</span></li>
+    </ul>
+    <details class="more dark small center-sum"><summary>출처 보기</summary><p class="src">국내 원전 운영사 무선통신 인프라 공개 자료 · 미국 NRC RG 1.180 Rev.2(2019) · 원자력안전위원회 계속운전 허가 의결(2026.10.27 보도)</p></details>
+    <ol class="flow three plan-flow" aria-label="적용 순서">
+      <li><span class="when">우선 적용 목표</span><b>국내 운영 원전</b><span class="d">무선통신기기가 들어선 기존 방부터 시작합니다.</span></li>
+      <li><span class="when">후속 적용 계획</span><b>해외의 한국형 원전</b><span class="d">해외에서 운영 중인 한국형 원전에 같은 방법을 적용할 계획입니다.</span></li>
+      <li><span class="when">확장 방향</span><b>신규 원전 · SMR</b><span class="d">새로 짓는 원전과 SMR은 설계와 설치 단계부터 함께하는 것을 목표로 합니다.</span></li>
+    </ol>
+    <p class="later"><span>이후 확장 방향</span><i class="nw">데이터센터</i> · <i class="nw">신재생에너지 발전소</i> · <i class="nw">스마트 공장</i></p>
+  </div>
+</section>
+
+<section class="band gray center" id="road">
+  <div class="wrap">
+    <p class="eyebrow">BEFOREMATH의 미래</p>
+    <h2>측정이 쌓여,<br>예측이 됩니다.</h2>
+    <p class="lead">축적한 전자파 데이터를 설비 상태 예측에 활용하는 것을 장기 목표로 합니다.</p>
+    <div class="ai">
+      <span class="ai-tag">장기 연구 목표</span>
+      <p class="ai-name">E-ORACLE</p>
+      <h3>쌓인 측정 이력으로,<br>고장 징후를 먼저 찾는 것이 목표입니다.</h3>
+      <p class="ai-lead">설비별 평소의 전자파 상태를 학습하고, 평소와 다른 변화를 찾아 알리는 AI 예지보전 시스템을 목표로 합니다.</p>
+      <ol class="ai-steps" aria-label="AI 예지보전 시스템 단계">
+        <li><span class="when">01</span><b>측정 이력 축적</b><span class="d">평가와 재측정, 상시 관측으로 시간별 전자파 변화를 쌓습니다.</span></li>
+        <li><span class="when">02</span><b>설비 이력 연결</b><span class="d">설비의 운전·정비·고장 이력과 시점을 맞춰 봅니다.</span></li>
+        <li><span class="when">03</span><b>전문가 확인</b><span class="d">AI가 고른 이상 후보를 전문가가 확인해 학습 데이터로 만듭니다.</span></li>
+        <li><span class="when">04</span><b>이상 징후 알림</b><span class="d">설비별 평소 상태와 다른 징후를 찾아 미리 알립니다.</span></li>
+      </ol>
+      <p class="ai-note">장기 목표입니다. 오랜 기간의 측정 이력과 설비 이력, 독립된 검증이 함께 필요합니다.</p>
+    </div>
+  </div>
+</section>
+
+<section class="band white center" id="contact">
+  <div class="wrap">
+    <p class="eyebrow">회사 정보 · 문의</p>
+    <h2 style="width:clamp(15rem,46vw,22rem);margin:0 auto"><img src="assets/logo-navy.png" alt="BEFOREMATH" style="width:100%;height:auto;display:block"><img src="assets/tagline-navy.png" alt="Precede uncertainty" style="width:82.6%;height:auto;display:block;margin:-.1rem auto 0"></h2>
+    <p class="lead"><span class="nw">전자파 맵핑</span> · <span class="nw">환경영향평가</span><span class="dsep"> · </span><br class="mbr"><span class="nw">AI 예지보전</span></p>
+    <h3 class="topics-h">이런 이야기를 나눌 수 있습니다</h3>
+    <ul class="topics">
+      <li>현장 적용 가능성 검토</li><li>설비 전자파 영향평가</li><li>기술 협력 · 공동 개발</li><li>투자 · 채용</li>
+    </ul>
+    <dl class="facts">
+      <div><dt>대표자</dt><dd>임은준</dd></div>
+      <div><dt>이메일</dt><dd><a class="mail" href="mailto:ejlim@beforemath.co.kr">ejlim@beforemath.co.kr</a></dd></div>
+      <div><dt>주소</dt><dd>경기도 성남시 분당구 판교로289번길 20<br>2동 3층 스타트업캠퍼스</dd></div>
+    </dl>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap"><span style="display:flex;align-items:center;gap:.9rem"><img src="assets/logo-white.png" alt="BEFOREMATH" style="height:1rem;width:auto;display:block">© 2026 BEFOREMATH Inc.</span></div>
+</footer>
+
+<script>
+(function(){
+  var cv=document.getElementById("wave"),ctx=cv.getContext("2d"),reduce=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var W=0,H=0,dpr=1;
+  function size(){dpr=Math.min(window.devicePixelRatio||1,2);var r=cv.getBoundingClientRect();W=r.width;H=r.height;cv.width=W*dpr;cv.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0)}
+  function bump(t){var p=(t%8)/8;return p<.35?Math.sin(p/.35*Math.PI):0}
+  var hero=cv.parentNode,logo=hero.querySelector(".hero-logo"),h1=hero.querySelector("h1"),M={lt:300,lb:380,ll:400,lr:800,gr:700,gb:250};
+  function measure(){
+    var c=cv.getBoundingClientRect(),g=logo.getBoundingClientRect(),rg=document.createRange(),tn=h1.firstChild;
+    rg.setStart(tn,0);rg.setEnd(tn,tn.length);var r=rg.getBoundingClientRect();
+    M={lt:r.top-c.top,lb:r.bottom-c.top,ll:r.left-c.left,lr:r.right-c.left,gr:g.right-c.left,gb:g.bottom-c.top}
+  }
+  function gap(x0,x1){ /* 글자 구간에서 선을 투명하게 */
+    var g=ctx.createLinearGradient(0,0,W,0),s=function(v){return Math.min(1,Math.max(0,v/W))};
+    g.addColorStop(0,x1);g.addColorStop(s(M.ll-60),x1);g.addColorStop(s(M.ll-12),x0);
+    g.addColorStop(s(M.lr+12),x0);g.addColorStop(s(M.lr+60),x1);g.addColorStop(1,x1);return g
+  }
+  function draw(t){
+    ctx.clearRect(0,0,W,H);
+    var aw=Math.max(60,W*.07),pulse=bump(t),n=7;
+    for(var k=0;k<n;k++){
+      var base=H*(.30+k*.075),amp=H*(.012+k*.004),f=.008+k*.0014,sp=.5+k*.12;
+      ctx.beginPath();
+      for(var x=0;x<=W;x+=3){var y=base+Math.sin(x*f+t*sp+k)*amp+Math.sin(x*f*2.3-t*sp*.7)*amp*.4;if(x===0)ctx.moveTo(x,y);else ctx.lineTo(x,y)}
+      ctx.lineWidth=1.2;ctx.strokeStyle="rgba(164,179,255,"+(.08+k*.01)+")";ctx.stroke()
+    }
+    var mo=W<640,R=mo?26:Math.max(34,Math.min(aw*.8,W*.11)),hy=M.lt+(M.lb-M.lt)*(mo?.02:.22);
+    R=Math.max(22,Math.min(R,M.lb-hy-(mo?6:10)));var ax=Math.min(W-R-14,Math.max(W*.74,M.lr+R+30)),spike=R*1.0;
+    for(var j=-1;j<=1;j++){
+      var hot=(j===0),bb=hy+j*14,am=hot?3:2;
+      ctx.beginPath();
+      for(var x2=0;x2<=W;x2+=3){
+        var env=Math.exp(-Math.pow((x2-ax)/aw,2));
+        var y2=bb+Math.sin(x2*.011+t*.9+j)*am+Math.sin(x2*.025-t*.6)*am*.4;
+        if(hot)y2+=Math.sin(x2*.09+t*6)*env*pulse*spike;
+        if(x2===0)ctx.moveTo(x2,y2);else ctx.lineTo(x2,y2)
+      }
+      ctx.lineWidth=hot?2.6:1.2;
+      ctx.strokeStyle=hot?gap("rgba(164,179,255,0)","rgba(164,179,255,"+(.6+pulse*.4)+")"):gap("rgba(164,179,255,0)","rgba(164,179,255,.18)");
+      ctx.stroke()
+    }
+    if(pulse>.08){
+      var a=Math.min(1,pulse*1.6),rr=R+pulse*(mo?4:8);
+      ctx.fillStyle="rgba(255,122,69,"+(a*.10)+")";ctx.beginPath();ctx.arc(ax,hy,rr,0,Math.PI*2);ctx.fill();
+      ctx.strokeStyle="rgba(255,122,69,"+a+")";ctx.lineWidth=2.4;ctx.beginPath();ctx.arc(ax,hy,rr,0,Math.PI*2);ctx.stroke();
+      var fs=W<640?13:15;ctx.fillStyle="rgba(255,122,69,"+a+")";ctx.font="700 "+fs+"px 'Noto Sans KR',sans-serif";
+      var lw=ctx.measureText("강한 신호 포착").width,ly=hy-rr-8,lx=ax;
+      if(ly<M.gb+fs)lx=Math.max(lx,M.gr+12+lw/2);
+      lx=Math.min(W-8-lw/2,lx);
+      ctx.textAlign="center";ctx.fillText("강한 신호 포착",lx,ly)
+    }
+  }
+  size();measure();window.addEventListener("resize",function(){size();measure();if(reduce)draw(3.0)});window.addEventListener("load",function(){measure();if(reduce)draw(3.0)});if(document.fonts)document.fonts.ready.then(measure);
+  if(reduce){draw(3.0)}else{var t0=performance.now();(function loop(now){draw((now-t0)/1000+2.2);requestAnimationFrame(loop)})(t0)}
+})();
+</script>
+
+<script>
+/* 기술 소개: 연속 측정 비교 그래프와 안전 여유 계산기 (모두 설명용 가상 값) */
+(function(){
+  var NS="http://www.w3.org/2000/svg";
+  function el(n,a,p){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);if(p)p.appendChild(e);return e}
+
+  var svgS=document.getElementById("traceS"),svgL=document.getElementById("traceL");
+  var T=3600,WS=480,WE=780,LO=-15,HI=30;   /* 60분(1초 간격), 5분 구간은 8~13분 */
+  function lcg(seed){var s=seed;return function(){s=(s*9301+49297)%233280;return s/233280}}
+  function gen(seed,burst){var r=lcg(seed),a=[];
+    for(var i=0;i<T;i++){a.push(10*Math.log10(Math.max(-Math.log(1-r()),1e-3)))}   /* 지속 신호: 페이딩 */
+    if(burst){[[2280,20],[3120,14],[930,9]].forEach(function(b){for(var k=0;k<3;k++)a[b[0]+k]+=b[1]})}
+    return a}
+  function mx(a,s,e){var m=-99;for(var i=s;i<e;i++)if(a[i]>m)m=a[i];return m}
+  var seed=1,plain;
+  for(;seed<3000;seed++){plain=gen(seed,false);var dd=mx(plain,0,T)-mx(plain,WS,WE);if(dd>=1.2&&dd<=2.0)break}
+  function py(o,v){return o.T+(1-(v-LO)/(HI-LO))*(o.H-o.T-o.B)}
+  function fmt(v){return(v>=0?"+":"−")+Math.abs(v).toFixed(1)+" dB"}
+  function frame(svg,o,xt){svg.innerHTML="";
+    [-10,0,10,20,30].forEach(function(g){el("line",{x1:o.L,x2:o.W-o.R,y1:py(o,g),y2:py(o,g),stroke:g===0?"#b9bfdc":"#d6daee"},svg);var t=el("text",{x:o.L-6,y:py(o,g)+4,"text-anchor":"end"},svg);t.textContent=g});
+    xt.forEach(function(p){var t=el("text",{x:p[0],y:o.H-10,"text-anchor":"middle"},svg);t.textContent=p[1]});
+    var u=el("text",{x:o.L,y:11,style:"font-size:10px"},svg);u.textContent="상대 세기 (dB)"}
+  function line(svg,o,a,s,e,xa,xb,col,w){var d="";for(var i=s;i<e;i++){var x=xa+(i-s)/(e-s-1)*(xb-xa);d+=(i===s?"M":"L")+x.toFixed(1)+" "+py(o,Math.max(a[i],LO)).toFixed(1)}
+    el("path",{d:d,fill:"none",stroke:col,"stroke-width":w,"stroke-linejoin":"round"},svg)}
+  function render(burst){
+    var a=burst?gen(seed,true):plain,m5=mx(a,WS,WE),m60=mx(a,0,T),diff=m60-m5;
+    var oS={W:360,H:230,L:40,R:12,T:20,B:30},oL={W:500,H:230,L:40,R:12,T:20,B:30},xt=[],k;
+    for(k=0;k<=5;k++)xt.push([oS.L+k/5*(oS.W-oS.L-oS.R),(8+k)+"분"]);
+    frame(svgS,oS,xt);line(svgS,oS,a,WS,WE,oS.L,oS.W-oS.R,"#141C55",1.5);
+    el("line",{x1:oS.L,x2:oS.W-oS.R,y1:py(oS,m5),y2:py(oS,m5),stroke:"#ff7a45","stroke-dasharray":"5 4","stroke-width":1.5},svgS);
+    var l1=el("text",{x:oS.L+6,y:py(oS,m5)-6,style:"fill:#c2410c;font-weight:700"},svgS);l1.textContent="최대값 "+fmt(m5);
+    xt=[];for(k=0;k<=6;k++)xt.push([oL.L+k/6*(oL.W-oL.L-oL.R),(k*10)+"분"]);
+    frame(svgL,oL,xt);
+    var span=oL.W-oL.L-oL.R,xs=oL.L+WS/(T-1)*span,xe=oL.L+WE/(T-1)*span;
+    el("rect",{x:xs,y:oL.T,width:xe-xs,height:oL.H-oL.T-oL.B,fill:"#a4b3ff",opacity:.35},svgL);
+    line(svgL,oL,a,0,T,oL.L,oL.W-oL.R,"#575c7d",1.1);line(svgL,oL,a,WS,WE,xs,xe,"#141C55",1.6);
+    el("line",{x1:oL.L,x2:oL.W-oL.R,y1:py(oL,m5),y2:py(oL,m5),stroke:"#8b91b8","stroke-dasharray":"3 4","stroke-width":1.2},svgL);
+    el("line",{x1:oL.L,x2:oL.W-oL.R,y1:py(oL,m60),y2:py(oL,m60),stroke:"#ff7a45","stroke-dasharray":"5 4","stroke-width":1.5},svgL);
+    var l2=el("text",{x:oL.W-oL.R-6,y:py(oL,m60)-6,"text-anchor":"end",style:"fill:#c2410c;font-weight:700"},svgL);l2.textContent="60분 최대값 "+fmt(m60);
+    var l3=el("text",{x:oL.W-oL.R-6,y:py(oL,m5)+14,"text-anchor":"end",style:"fill:#575c7d;font-weight:700;paint-order:stroke;stroke:#f1f3fa;stroke-width:4px"},svgL);l3.textContent="5분 구간 최대 "+fmt(m5);
+    var msg=document.getElementById("traceMsg");
+    if(!burst){msg.className="verdict ok";msg.innerHTML="최대값은 약 "+diff.toFixed(1)+" dB 차이 납니다.<small>이 가상 예시에서는 선택한 5분 구간과 60분 전체의 최대값 차이가 작습니다.</small>"}
+    else{msg.className="verdict bad";msg.innerHTML="최대값이 약 "+diff.toFixed(0)+" dB 차이 납니다.<small>이 가상 예시의 순간적인 강한 신호는 선택한 5분 구간 밖에 있어, 그 구간만 보면 관측되지 않습니다.</small>"}
+  }
+  var b1=document.getElementById("m1"),b2=document.getElementById("m2");
+  function setM(burst){b1.setAttribute("aria-pressed",String(!burst));b2.setAttribute("aria-pressed",String(burst));render(burst)}
+  b1.onclick=function(){setM(false)};b2.onclick=function(){setM(true)};setM(true);
+})();
+</script>
+
+<script>
+/* 사업 모델 01: 눌러 보는 전계 지도 (설명용 가상 값). dBµV/m = 120 + 20·log10(V/m) */
+(function(){
+  var NS="http://www.w3.org/2000/svg";
+  function el(n,a,p){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);if(p)p.appendChild(e);return e}
+  var LIMIT_DB=20*Math.log10(10)+120-8;   // 내성 10 V/m 장비에서 8 dB 낮춘 값 = 132.0
+  function db(v){return 120+20*Math.log10(v)}
+  function sign(x){return (x>0?"+":x<0?"−":"")+Math.abs(x).toFixed(1)}
+  var pts=[
+    {id:"P01",x:70,y:60,v:0.42,f:"748 MHz",t:"09:12:40",d:"8시간 / 관측 완료"},
+    {id:"P02",x:215,y:55,v:0.88,f:"4.72 GHz",t:"11:40:05",d:"8시간 / 관측 완료"},
+    {id:"P03",x:120,y:140,v:1.60,f:"4.700 GHz",t:"14:32:18",d:"8시간 / 경과 3시간"},
+    {id:"P04",x:250,y:130,v:1.12,f:"4.72 GHz",t:"10:27:51",d:"8시간 / 관측 완료"},
+    {id:"P05",x:330,y:70,v:0.51,f:"748 MHz",t:"14:51:09",d:"8시간 / 관측 완료"},
+    {id:"P06",x:200,y:215,v:0.64,f:"2.46 GHz",t:"16:08:33",d:"8시간 / 관측 완료"}];
+  var top=pts.reduce(function(a,b){return b.v>a.v?b:a});
+  var g=document.getElementById("pts"),els={},rv=document.getElementById("rv");
+  function set(id,t){document.getElementById(id).textContent=t}
+  pts.forEach(function(p){
+    var hot=p.v>1,col=hot?"#ff7a45":"#a4b3ff",r=10+p.v*9;
+    var gp=el("g",{"class":"pt",tabindex:0,role:"button","aria-label":p.id+" "+db(p.v).toFixed(1)+" dBµV/m"},g);
+    el("circle",{cx:p.x,cy:p.y,r:r*2.2,fill:col,opacity:Math.min(.1+p.v*.12,.3)},gp);
+    el("circle",{cx:p.x,cy:p.y,r:r,fill:col,opacity:.9,"class":"dot"},gp);
+    el("circle",{cx:p.x,cy:p.y,r:r+6,"class":"ring"},gp);
+    var t=el("text",{x:p.x,y:p.y+4,"text-anchor":"middle",style:"fill:#0b1038;font-weight:700;font-size:11px;font-family:'Noto Sans KR',sans-serif"},gp);t.textContent=p.id.slice(1);
+    function sel(){
+      Object.keys(els).forEach(function(k){els[k].classList.remove("sel")});gp.classList.add("sel");
+      var d=db(p.v),m=LIMIT_DB-d,x=d-db(top.v);
+      rv.textContent=d.toFixed(1)+" dBµV/m";rv.className="rbig"+(hot?" hot":"");
+      set("rp","룸 A · "+p.id);set("rvm",p.v.toFixed(2)+" V/m");set("rf",p.f);set("rt",p.t);set("rd",p.d);
+      set("rm",m>=0?m.toFixed(1)+" dB 낮음":Math.abs(m).toFixed(1)+" dB 높음");
+      set("rx",p===top?"가장 센 곳":sign(x)+" dB")}
+    gp.onclick=sel;gp.onkeydown=function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();sel()}};
+    els[p.id]=gp;if(p===top)sel()});
+})();
+</script>
+<script>
+(function(){
+  var f=document.querySelector(".early");if(!f)return;
+  if(window.matchMedia("(prefers-reduced-motion: reduce)").matches||!("IntersectionObserver" in window))return;
+  f.classList.add("pre");
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){f.classList.add("on");io.disconnect()}})},{threshold:.4});
+  io.observe(f);
+})();
+</script>
+<script>
+(function(){var n=document.querySelector("nav.top"),b=n&&n.querySelector(".menu-btn");if(!b)return;
+  b.addEventListener("click",function(){var o=n.classList.toggle("open");b.setAttribute("aria-expanded",String(o))});
+  n.querySelectorAll("ul a").forEach(function(a){a.addEventListener("click",function(){n.classList.remove("open");b.setAttribute("aria-expanded","false")})});
+})();
+</script>
+
